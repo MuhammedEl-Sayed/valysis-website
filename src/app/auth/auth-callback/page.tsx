@@ -1,6 +1,5 @@
 "use client";
 
-import { getAuthStatus } from "@/actions";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from 'next/navigation';
 
@@ -10,14 +9,11 @@ const AuthCallbackPage = () => {
 
     const { data } = useQuery({
         queryKey: ["auth-status"],
-        queryFn: async () => await getAuthStatus(),
+        queryFn: async () => {},
         retry: true,
         retryDelay: 500,
     });
 
-    if (data?.success) {
-        router.push("/dashboard");
-    }
 
     return (
         <div className="flex items-center justify-center flex-col h-screen relative">
