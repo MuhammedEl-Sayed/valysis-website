@@ -1,77 +1,81 @@
-## Welcome to your new SaaS App! 🎉
-<a href="https://www.producthunt.com/posts/open-saas?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-open&#0045;saas" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=436467&theme=light" alt="Open&#0032;SaaS - Open&#0045;source&#0032;&#0038;&#0032;100&#0037;&#0032;free&#0032;React&#0032;&#0038;&#0032;Node&#0046;js&#0032;SaaS&#0032;starter&#0033; | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+<img src="https://github.com/user-attachments/assets/e1e0fe16-21f4-44c8-a22d-39b4494433a1" alt="Link Management Logo" width="50" height="50">
 
-https://github.com/wasp-lang/open-saas/assets/70215737/5ff289b1-12b9-4b46-aa90-a6a3122de93e
+# 🔗 Linkify - The Link Management Platform for Businesses(Landing Page)
 
-You've decided to build a SaaS app with the Open SaaS template. Great choice! 
+<!-- <img src="https://github.com/user-attachments/assets/deab03fd-4234-44c3-a6ad-484c4a1a02a1" alt="Linkify Thubmnail"> -->
+<img src="https://github.com/user-attachments/assets/ee867e8e-7871-4289-bd56-3eef40adb9b2" alt="Linkify Thumbnail" style="border-radius: 50px;" width="1280">
 
-This template is:
 
-1. fully open-source
-2. completely free to use and distribute
-3. comes with a ton of features out of the box!
-4. focused on free, open-source services, where possible
+## 🌟 Introduction
+Linkify is an innovative link management software designed to help you shorten, track, and optimize your links effortlessly. Built with React, Node.js, and MongoDB, Linkify provides powerful analytics and user-friendly features to enhance your link-sharing experience.
 
-🧑‍💻 Check it out in action here: [OpenSaaS.sh](https://opensaas.sh)  
-📚 Check out the Docs here: [Open SaaS Docs](https://docs.opensaas.sh)
+## 🚀 Features
 
-## What's inside?
+- **Link Shortening:** Easily create short links for better sharing.
+- **Analytics Dashboard:** Track clicks, user engagement, and performance metrics.
+- **Customizable Links:** Create branded links that reflect your identity.
+- **AI-Powered Suggestions:** Get smart recommendations for link optimization.
 
-The template itself is built on top of some very powerful tools and frameworks, including:
+## 🔗 Live Preview
 
-- 🐝 [Wasp](https://wasp.sh) - a full-stack React, NodeJS, Prisma framework with superpowers
-- 🚀 [Astro](https://starlight.astro.build/) - Astro's lightweight "Starlight" template for documentation and blog
-- 💸 [Stripe](https://stripe.com) or [Lemon Squeezy](https://lemonsqueezy.com/) - for products and payments
-- 📈 [Plausible](https://plausible.io) or [Google](https://analytics.google.com/) Analytics
-- 🤖 [OpenAI](https://openai.com) - OpenAI API w/ function calling example
-- 📦 [AWS S3](https://aws.amazon.com/s3/) - for file uploads
-- 📧 [SendGrid](https://sendgrid.com), [MailGun](https://mailgun.com), or SMTP - for email sending
-- 💅 [TailwindCSS](https://tailwindcss.com) - for styling
-- 🧑‍💼 [TailAdmin](https://tailadmin.com/) - admin dashboard & components for TailwindCSS
-- 🧪 [Playwright](https://playwright.dev) - end-to-end tests with Playwright
+Check out the live demo of Linkify here: [Live Preview](http://Linkify-demo.vercel.app)
 
-Because we're using Wasp as the full-stack framework, we can leverage a lot of its features to build our SaaS in record time, including:
+## 🎥 Watch Demo on YouTube
 
-- 🔐 [Full-stack Authentication](https://wasp.sh/docs/auth/overview) - Email verified + social Auth in a few lines of code.
-- ⛑ [End-to-end Type Safety](https://wasp.sh/docs/data-model/operations/overview) - Type your backend functions and get inferred types on the front-end automatically, without the need to install or configure any third-party libraries. Oh, and type-safe Links, too!
-- 🤖 [Jobs](https://wasp.sh/docs/advanced/jobs) - Run cron jobs in the background or set up queues simply by defining a function in the config file.
-- 🚀 [One-command Deploy](https://wasp.sh/docs/advanced/deployment/overview) - Easily deploy via the CLI to [Fly.io](https://fly.io), or to other providers like [Railway](https://railway.app) and [Netlify](https://netlify.com).
+Check out the tutorial to see how this link management system was built: [Watch the Tutorial](https://youtu.be/3_sZPAfVR_U) 💻 
 
-You also get access to Wasp's diverse, helpful community if you get stuck or need help.
-- 🤝 [Wasp Discord](https://discord.gg/aCamt5wCpS)
+## 💻 Tech Stack
 
-## Getting Started
+* Next.js
+* Tailwind CSS
+* Shadcn UI
+* Magic UI
+* Aceternity UI
+* Prisma
+* MongoDB
+* Clerk
+* React Hook Form
 
-### Simple Instructions
+## 🛠️ Installation
+To run Linkify locally, follow these steps:
 
-First, to install the latest version of [Wasp](https://wasp.sh/) on macOS, Linux, or Windows with WSL, run the following command:
-```bash
-curl -sSL https://get.wasp.sh/installer.sh | sh
-```
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Shreyas-29/linkify.git
+    ```
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
+3. Set up environment variables in a `.env` file:
+    ```
+   # app
+    NEXT_PUBLIC_APP_DOMAIN=
+    NEXT_PUBLIC_APP_NAME=
 
-Then, create a new SaaS app with the following command:
+    # clerk
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+    CLERK_SECRET_KEY=
 
-```bash
-wasp new -t saas
-```
+    # database
+    DATABASE_URL=
+    ```
 
-This will create a **clean copy of the Open SaaS template** into a new directory, and you can start building your SaaS app right away!
+4. Run the development server:
+    ```bash
+    npm run dev
+    ```
 
-### Detailed Instructions
+## ☕ Buy Me a Coffee
+If you enjoy using Linkify, consider supporting my work!  
+[Buy Me a Coffee ☕](https://buymeacoffee.com/shreyas29)
 
-For everything you need to know about getting started and using this template, check out the [Open SaaS Docs](https://docs.opensaas.sh).
+## 📜 License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-We've documented everything in great detail, including installation instructions, pulling updates to the template, guides for integrating services, SEO, deployment, and more. 🚀
+## 💬 Contact
+If you have any questions or feedback, feel free to reach out via [GitHub Issues](https://github.com/Shreyas-29/linkify/issues).
 
-## Getting Help & Providing Feedback
+---
 
-There are two ways to get help or provide feedback (and we try to always respond quickly!):
-1. [Open an issue](https://github.com/wasp-lang/open-saas/issues)
-2. [Wasp Discord](https://discord.gg/aCamt5wCpS) -- please direct questions to the #🙋questions forum channel
-
-## Contributing
-
-Note that we've tried to get as many of the core features of a SaaS app into this template as possible, but there still might be some missing features or functionality.
-
-We could always use some help tying up loose ends: contributions are welcome! Check out [CONTRIBUTING.md](/CONTRIBUTING.md) for more details.
-
+Built with ❤️ by [Shreyas](https://shreyas-sihasane.vercel.app/)
