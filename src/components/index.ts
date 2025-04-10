@@ -10,15 +10,9 @@ import Footer from "./navigation/footer";
 // providers
 import Providers from "./providers/providers";
 
-// dashboard
-import Sidebar from "./dashboard/sidebar";
-import DashboardNavbar from "./dashboard/dashboard-navbar";
 
 // pricing
 import PricingCards from "./pricing-cards";
-
-// blog
-import Blogs from "./blog/blogs";
 
 
 export {
@@ -32,10 +26,7 @@ export {
 
     Providers,
 
-    Sidebar,
-    DashboardNavbar,
-
     PricingCards,
 
-    Blogs,
+
 };
