@@ -17,6 +17,8 @@ import {
 import { LampContainer } from '@/components/ui/lamp';
 import MagicBadge from '@/components/ui/magic-badge';
 import MagicCard from '@/components/ui/magic-card';
+import { MobileImageCarousel } from '@/components/ui/mobile-image-carousel';
+import { TransitioningImages } from '@/components/ui/transitioning-images';
 import { COMPANIES, PROCESS } from '@/utils';
 import { REVIEWS } from '@/utils/constants/misc';
 import { ArrowRightIcon, CreditCardIcon, StarIcon } from 'lucide-react';
@@ -76,25 +78,32 @@ const HomePage = async () => {
 
 					<AnimationContainer
 						delay={0.2}
-						className='relative pt-20 pb-20 md:py-32 px-2 bg-transparent w-full flex items-center justify-center'
+						className='relative pt-8 sm:pt-20 md:pt-32 pb-12 px-2 bg-transparent w-full flex items-center justify-center'
 					>
 						<div className='absolute md:top-[10%] left-1/2 gradient w-3/4 -translate-x-1/2 h-1/4 md:h-1/3 inset-0 blur-[5rem] animate-image-glow'></div>
 						<div className='-m-2 rounded-xl p-2 ring-1 ring-inset ring-foreground/20 lg:-m-4 lg:rounded-2xl bg-opacity-50 backdrop-blur-3xl flex items-center'>
 							<BorderBeam size={250} duration={12} delay={9} />
-							<Image
-								src='/assets/main.png'
-								alt='Dashboard'
-								width={400}
-								height={400}
-								quality={100}
-							/>
-							<Image
-								src='/assets/analysis.png'
-								alt='Dashboard'
-								width={400}
-								height={400}
-								quality={100}
-							/>
+							<div className='flex  gap-4 items-stretch '>
+								<TransitioningImages />
+								{/* Desktop view: show side-by-side only from md upward */}
+								<div className='hidden sm:flex gap-4 w-full'>
+									<Image
+										src='/assets/main.png'
+										alt='Dashboard'
+										width={400}
+										height={400}
+										quality={100}
+									/>
+									<Image
+										src='/assets/analysis.png'
+										alt='Dashboard'
+										width={400}
+										height={400}
+										quality={100}
+									/>
+								</div>
+							</div>
+
 							<div className='absolute -bottom-4 inset-x-0 w-full h-1/2 bg-gradient-to-t from-background z-40'></div>
 							<div className='absolute bottom-0 md:-bottom-8 inset-x-0 w-full h-1/4 bg-gradient-to-t from-background z-50'></div>
 						</div>

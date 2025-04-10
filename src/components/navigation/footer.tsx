@@ -19,7 +19,7 @@ const Footer = () => {
 						<span className='mt-4 text-neutral-200 text-sm'>
 							Made by{' '}
 							<Link
-								href='https://shreyas-sihasane.vercel.app/'
+								href='https://www.linkedin.com/in/muhammedelsayed/'
 								className='font-semibold ml-1'
 							>
 								Muhammed
