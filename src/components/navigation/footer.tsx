@@ -47,7 +47,7 @@ const Footer = () => {
 							</li>
 							<li>
 								<Link
-									href=''
+									href='/privacy'
 									className='hover:text-foreground transition-all duration-300'
 								>
 									Privacy Policy
@@ -55,7 +55,7 @@ const Footer = () => {
 							</li>
 							<li>
 								<Link
-									href=''
+									href='/terms'
 									className='hover:text-foreground transition-all duration-300'
 								>
 									Terms & Conditions
