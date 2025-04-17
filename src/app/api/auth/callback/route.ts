@@ -66,7 +66,7 @@ export async function GET(request: Request) {
 
     // Upsert user into Supabase
     const { data, error } = await supabase
-      .from('users')
+      .from('User')
       .upsert(
         { riotSub: sub, hasConsented: true },
         { onConflict: 'riotSub' }
