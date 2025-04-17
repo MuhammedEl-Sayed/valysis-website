@@ -4,15 +4,20 @@ export const runtime = 'edge' // ✅ Use Edge Runtime
 
 import { createClient } from '@supabase/supabase-js'
 
+// Supabase setup
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!
 )
 
+// Helper to Base64 encode client_id:client_secret
+function toBase64(str: string) {
+  return Buffer.from(str).toString('base64')
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
-  const state = searchParams.get('state')
   const redirect = searchParams.get('redirect') || 'valysis://auth/callback'
 
   if (!code) {
@@ -25,13 +30,12 @@ export async function GET(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${toBase64(`${process.env.RIOT_CLIENT_ID!}:${process.env.RIOT_CLIENT_SECRET!}`)}`
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
         code,
         redirect_uri: process.env.RIOT_REDIRECT_URI!,
-        client_id: process.env.RIOT_CLIENT_ID!,
-        client_secret: process.env.RIOT_CLIENT_SECRET!,
       }),
     })
 
@@ -50,6 +54,12 @@ export async function GET(request: Request) {
         Authorization: `Bearer ${accessToken}`,
       },
     })
+
+    if (!userInfoRes.ok) {
+      const error = await userInfoRes.text()
+      console.error('Failed to fetch user info:', error)
+      return Response.redirect(`${redirect}?status=error`)
+    }
 
     const userInfo = await userInfoRes.json()
     const { sub } = userInfo
