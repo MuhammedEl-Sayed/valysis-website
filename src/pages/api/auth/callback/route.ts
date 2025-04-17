@@ -1,6 +1,6 @@
 //src/app/api/auth/callback/route.ts
 
-export const runtime = 'node'; // 👈 This opts out of Edge Runtime
+export const runtime = 'nodejs'; // 👈 This opts out of Edge Runtime
 
 import { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient } from '@prisma/client'
