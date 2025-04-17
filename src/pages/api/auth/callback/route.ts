@@ -1,58 +1,75 @@
-//src/app/api/auth/callback/route.ts
+// src/app/api/auth/callback/route.ts
 
-export const runtime = 'nodejs'; // 👈 This opts out of Edge Runtime
+export const runtime = 'edge' // ✅ Use Edge Runtime
 
-import { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient } from '@prisma/client'
-import axios from 'axios'
+import { createClient } from '@supabase/supabase-js'
 
-const prisma = new PrismaClient()
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_ANON_KEY!
+)
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { code, state, redirect } = req.query
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url)
+  const code = searchParams.get('code')
+  const state = searchParams.get('state')
+  const redirect = searchParams.get('redirect') || 'valysis://auth/callback'
 
-  if (!code || typeof code !== 'string') {
-    return res.status(400).send('Missing code')
+  if (!code) {
+    return new Response('Missing code', { status: 400 })
   }
 
   try {
     // Exchange code for access token
-    const tokenRes = await axios.post('https://auth.riotgames.com/token', {
-      grant_type: 'authorization_code',
-      code,
-      redirect_uri: process.env.RIOT_REDIRECT_URI,
-      client_id: process.env.RIOT_CLIENT_ID,
-      client_secret: process.env.RIOT_CLIENT_SECRET,
-    }, {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    const tokenRes = await fetch('https://auth.riotgames.com/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        code,
+        redirect_uri: process.env.RIOT_REDIRECT_URI!,
+        client_id: process.env.RIOT_CLIENT_ID!,
+        client_secret: process.env.RIOT_CLIENT_SECRET!,
+      }),
     })
 
-    const accessToken = tokenRes.data.access_token
+    if (!tokenRes.ok) {
+      const error = await tokenRes.text()
+      console.error('Token exchange failed:', error)
+      return Response.redirect(`${redirect}?status=error`)
+    }
 
-    // Get user info (sub = unique user ID from Riot)
-    const userInfoRes = await axios.get('https://auth.riotgames.com/userinfo', {
+    const tokenData = await tokenRes.json()
+    const accessToken = tokenData.access_token
+
+    // Get user info
+    const userInfoRes = await fetch('https://auth.riotgames.com/userinfo', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
 
-    const { sub } = userInfoRes.data
+    const userInfo = await userInfoRes.json()
+    const { sub } = userInfo
 
-    // 🔧 Update Neon via Prisma
-    await prisma.user.upsert({
-      where: { riotSub: sub },
-      update: { hasConsented: true },
-      create: {
-        riotSub: sub,
-        hasConsented: true,
-      },
-    })
+    // Upsert user into Supabase
+    const { data, error } = await supabase
+      .from('users')
+      .upsert(
+        { riotSub: sub, hasConsented: true },
+        { onConflict: 'riotSub' }
+      )
 
-    // ✅ Redirect back to Flutter via deep link
-    const redirectUri = typeof redirect === 'string' ? redirect : 'valysis://auth/callback'
-    res.redirect(`${redirectUri}?status=success`)
+    if (error) {
+      console.error('Supabase upsert error:', error)
+      return Response.redirect(`${redirect}?status=error`)
+    }
+
+    return Response.redirect(`${redirect}?status=success`)
   } catch (err: any) {
-    console.error('OAuth Error:', err.response?.data || err.message)
-    res.redirect(`${req.query.redirect || 'valysis://auth/callback'}?status=error`)
+    console.error('OAuth Error:', err.message)
+    return Response.redirect(`${redirect}?status=error`)
   }
 }
