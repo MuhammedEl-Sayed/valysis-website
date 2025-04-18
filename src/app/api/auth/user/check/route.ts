@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const gameName = searchParams.get("gameName");
 	const tagLine = searchParams.get("tagLine");
-
+	//update to one field
 	if (!gameName || !tagLine) {
 		return new Response("Missing gameName or tagLine", { status: 400 });
 	}
@@ -24,10 +24,9 @@ export async function GET(request: Request) {
 			.select("id")
 			.eq("gameName", gameName)
 			.eq("tagLine", tagLine)
-			.single();
+			.maybeSingle(); // ✅ won't throw if not found
 
-		if (error && error.code !== "PGRST116") {
-			// PGRST116: No rows returned
+		if (error) {
 			console.error("Database error:", error.message);
 			return new Response("Error checking user", { status: 500 });
 		}
