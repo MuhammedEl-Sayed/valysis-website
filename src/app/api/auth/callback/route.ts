@@ -4,13 +4,11 @@ export const runtime = "edge"; // ✅ Use Edge Runtime
 
 import { createClient } from "@supabase/supabase-js";
 
-// Supabase setup
 const supabase = createClient(
 	process.env.SUPABASE_URL!,
 	process.env.SUPABASE_ANON_KEY!
 );
 
-// Helper to Base64 encode client_id:client_secret
 function toBase64(str: string) {
 	return Buffer.from(str).toString("base64");
 }
@@ -66,11 +64,33 @@ export async function GET(request: Request) {
 		const userInfo = await userInfoRes.json();
 		const { sub } = userInfo;
 
-		// Upsert user into Supabase
-		const { data, error } = await supabase
+		// Call Riot Account API to get gameName + tagLine (NA region)
+		const riotAccountRes = await fetch(
+			`https://americas.api.riotgames.com/riot/account/v1/accounts/by-puuid/${sub}`,
+			{
+				headers: {
+					"X-Riot-Token": process.env.RIOT_API_KEY!,
+				},
+			}
+		);
+
+		if (!riotAccountRes.ok) {
+			const error = await riotAccountRes.text();
+			console.error("Failed to get Riot account data:", error);
+			return Response.redirect(`${redirect}?status=error`);
+		}
+
+		const riotAccount = await riotAccountRes.json();
+		const { gameName, tagLine } = riotAccount;
+
+		// Upsert into Supabase
+		const { error } = await supabase
 			.from("User")
-			.upsert({ riotSub: sub, hasConsented: true }, { onConflict: "riotSub" });
-		console.log(`Data: ${data}`);
+			.upsert(
+				{ riotSub: sub, gameName, tagLine, hasConsented: true },
+				{ onConflict: "riotSub" }
+			);
+
 		if (error) {
 			console.error("Supabase upsert error:", error);
 			return Response.redirect(`${redirect}?status=error`);
