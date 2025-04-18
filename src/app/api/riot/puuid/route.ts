@@ -1,28 +1,40 @@
+export const runtime = 'edge';
+
 import { getRiotPUUID } from '@/lib/riot/getRiotPUUID';
-import type { NextApiRequest, NextApiResponse } from 'next';
 
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const internalKey = req.headers.get('x-internal-token');
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'GET') return res.status(405).end('Method Not Allowed');
-
-  const internalKey = req.headers['x-internal-token'];
   if (internalKey !== process.env.INTERNAL_TOKEN) {
-    return res.status(403).json({ error: 'Forbidden' });
+    return new Response(JSON.stringify({ error: 'Forbidden' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
-  const name = req.query.name as string;
-  const region = req.query.region as string;
+  const name = searchParams.get('name');
+  const region = searchParams.get('region');
+
+  if (!name || !region || !name.includes('#')) {
+    return new Response(JSON.stringify({ error: 'Missing or invalid name/region' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   const [gameName, tagLine] = name.split('#');
-
-  if (!gameName || !tagLine) {
-    return res.status(400).json({ error: 'Missing name or tag' });
-  }
 
   try {
     const puuid = await getRiotPUUID(gameName, tagLine, region);
-    return res.status(200).json({ puuid });
+    return new Response(JSON.stringify({ puuid }), {
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (err) {
     console.error('Error fetching PUUID:', err);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

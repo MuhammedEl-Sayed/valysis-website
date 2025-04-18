@@ -1,20 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
+export const runtime = 'edge';
 
-export async function GET(req: NextRequest) {
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
   const internalKey = req.headers.get('x-internal-token');
+  const matchID = searchParams.get('matchID');
+
   if (internalKey !== process.env.INTERNAL_TOKEN) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    return new Response(JSON.stringify({ error: 'Forbidden' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
-  const matchID = req.nextUrl.searchParams.get('matchID');
   if (!matchID) {
-    return NextResponse.json({ error: 'Missing matchID' }, { status: 400 });
+    return new Response(JSON.stringify({ error: 'Missing matchID' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   try {
-    // TODO: Implement regions
-    const riotRes = await axios.get(
+    const riotRes = await fetch(
       `https://na.api.riotgames.com/val/match/v1/matches/${matchID}`,
       {
         headers: {
@@ -23,9 +29,15 @@ export async function GET(req: NextRequest) {
       }
     );
 
-    return NextResponse.json(riotRes.data);
+    const data = await riotRes.json();
+    return new Response(JSON.stringify(data), {
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (err) {
     console.error('Error fetching match details:', err);
-    return NextResponse.json({ error: 'Failed to fetch match' }, { status: 500 });
+    return new Response(JSON.stringify({ error: 'Failed to fetch match' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
