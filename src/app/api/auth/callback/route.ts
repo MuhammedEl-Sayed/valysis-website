@@ -19,7 +19,7 @@ export async function GET(request: Request) {
 	const redirect = "valysis://auth/callback";
 
 	if (!code) {
-		return new Response("Missing code", { status: 400 });
+		return new Response("Missing code", { status: 400 }); 
 	}
 
 	try {
@@ -81,13 +81,14 @@ export async function GET(request: Request) {
 		}
 
 		const riotAccount = await riotAccountRes.json();
+		console.log(riotAccount);
 		const { gameName, tagLine } = riotAccount;
 
 		// Upsert into Supabase
 		const { error } = await supabase
 			.from("User")
 			.upsert(
-				{ riotSub: sub, gameName, tagLine, hasConsented: true },
+				{ riotSub: sub, gameName ,tagLine, hasConsented: true },
 				{ onConflict: "riotSub" }
 			);
 

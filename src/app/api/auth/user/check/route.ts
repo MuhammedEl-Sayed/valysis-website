@@ -11,9 +11,10 @@ const supabase = createClient(
 
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
-	const gameNameAndTag = searchParams.get("gameNameAndTag");
+	const gameName= searchParams.get("gameName");
+    const tagLine = searchParams.get("tagLine");
 	//update to one field
-	if (!gameNameAndTag) {
+	if (!gameName  || !tagLine) {
 		return new Response("Missing gameName or tagLine", { status: 400 });
 	}
 
@@ -21,7 +22,8 @@ export async function GET(request: Request) {
 		const { data, error } = await supabase
 			.from("User")
 			.select("hasConsented")
-			.eq("gameNameAndTag", gameNameAndTag)
+			.eq("gameName", gameName)
+            .eq("tagLine", tagLine)
 			.maybeSingle(); // ✅ won't throw if not found
 
 		if (error) {
