@@ -1,11 +1,15 @@
 // lib/riot/getRiotPUUID.ts
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.INTERNAL_TOKEN!; // stored securely in .env
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-export async function getRiotPUUID(gameName: string, tagLine: string, region: string) {
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_ANON_KEY!
+);
+
+export async function getRiotPUUID(gameName: string, tagLine: string, region: string) 
+
+{
   const { data, error } = await supabase
     .from('User')
     .select('puuid')
