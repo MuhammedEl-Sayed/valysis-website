@@ -15,7 +15,7 @@ function toBase64(str: string) {
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const code = searchParams.get("code");
-	const redirect = "valysis://auth/callback";
+	const redirect = "valysis://signin";
 
 	if (!code) {
 		return new Response("Missing code", { status: 400 });
@@ -48,11 +48,14 @@ export async function GET(request: Request) {
 		const accessToken = tokenData.access_token;
 
 		// Get PUUID from Riot Account endpoint
-		const accountRes = await fetch("https://americas.api.riotgames.com/riot/account/v1/accounts/me", {
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
-			},
-		});
+		const accountRes = await fetch(
+			"https://americas.api.riotgames.com/riot/account/v1/accounts/me",
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			}
+		);
 
 		if (!accountRes.ok) {
 			const error = await accountRes.text();
@@ -66,7 +69,7 @@ export async function GET(request: Request) {
 		const { error } = await supabase
 			.from("User")
 			.upsert(
-				{  puuid, gameName, tagLine, hasConsented: true, region: null },
+				{ puuid, gameName, tagLine, hasConsented: true, region: null },
 				{ onConflict: "puuid" }
 			);
 
