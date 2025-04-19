@@ -1,15 +1,23 @@
 // lib/riot/getRiotPUUID.ts
-import axios from 'axios';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseServiceKey = process.env.INTERNAL_TOKEN!; // stored securely in .env
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 export async function getRiotPUUID(gameName: string, tagLine: string, region: string) {
-  const riotApiKey = process.env.RIOT_API_KEY;
-  const url = `https://${region}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`;
+  const { data, error } = await supabase
+    .from('User')
+    .select('puuid')
+    .eq('gameName', gameName)
+    .eq('tagLine', tagLine)
+    // TODO: Add region filtering if needed
+    .eq('region', null)
+    .single();
 
-  const response = await axios.get(url, {
-    headers: {
-      'X-Riot-Token': riotApiKey!,
-    },
-  });
+  if (error || !data) {
+    throw new Error(`User not found for ${gameName}#${tagLine}`);
+  }
 
-  return response.data.puuid;
+  return data.puuid;
 }

@@ -12,17 +12,16 @@ const supabase = createClient(
 function toBase64(str: string) {
 	return Buffer.from(str).toString("base64");
 }
-
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const code = searchParams.get("code");
 	const redirect = "valysis://auth/callback";
 
 	if (!code) {
-		return new Response("Missing code", { status: 400 }); 
+		return new Response("Missing code", { status: 400 });
 	}
 
-	try {/*
+	try {
 		// Exchange code for access token
 		const tokenRes = await fetch("https://auth.riotgames.com/token", {
 			method: "POST",
@@ -48,55 +47,34 @@ export async function GET(request: Request) {
 		const tokenData = await tokenRes.json();
 		const accessToken = tokenData.access_token;
 
-		// Get user info
-		const userInfoRes = await fetch("https://auth.riotgames.com/userinfo", {
+		// Get PUUID from Riot Account endpoint
+		const accountRes = await fetch("https://americas.api.riotgames.com/riot/account/v1/accounts/me", {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
 		});
 
-		if (!userInfoRes.ok) {
-			const error = await userInfoRes.text();
-			console.error("Failed to fetch user info:", error);
+		if (!accountRes.ok) {
+			const error = await accountRes.text();
+			console.error("Failed to get account data:", error);
 			return Response.redirect(`${redirect}?status=error`);
 		}
 
-		const userInfo = await userInfoRes.json();
-		const { sub } = userInfo;
+		const { puuid, gameName, tagLine } = await accountRes.json();
 
-		// Call Riot Account API to get gameName + tagLine (NA region)
-		const riotAccountRes = await fetch(
-			`https://americas.api.riotgames.com/riot/account/v1/accounts/by-puuid/${sub}`,
-			{
-				headers: {
-					"X-Riot-Token": process.env.RIOT_API_KEY!,
-				},
-			}
-		);
-
-		if (!riotAccountRes.ok) {
-			const error = await riotAccountRes.text();
-			console.error("Failed to get Riot account data:", error);
-			return Response.redirect(`${redirect}?status=error`);
-		}
-
-		const riotAccount = await riotAccountRes.json();
-		console.log(riotAccount);
-		const { gameName, tagLine } = riotAccount;
-
-		// Upsert into Supabase
+		// Store in Supabase
 		const { error } = await supabase
 			.from("User")
 			.upsert(
-				{ riotSub: sub, gameName ,tagLine, hasConsented: true },
-				{ onConflict: "riotSub" }
+				{  puuid, gameName, tagLine, hasConsented: true, region: null },
+				{ onConflict: "puuid" }
 			);
 
 		if (error) {
 			console.error("Supabase upsert error:", error);
 			return Response.redirect(`${redirect}?status=error`);
 		}
-*/
+
 		return Response.redirect(`${redirect}?status=success`);
 	} catch (err: any) {
 		console.error("OAuth Error:", err.message);
