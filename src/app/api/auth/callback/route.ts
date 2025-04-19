@@ -15,7 +15,7 @@ function toBase64(str: string) {
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const code = searchParams.get("code");
-	const redirect = "valysis://signin";
+	const redirect = "valysis://auth/callback";
 
 	if (!code) {
 		return new Response("Missing code", { status: 400 });
