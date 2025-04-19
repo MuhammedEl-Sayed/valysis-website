@@ -2,6 +2,7 @@
 
 export const runtime = "edge"; // ✅ Use Edge Runtime
 
+import { checkRateLimits, isRateLimited } from "@/utils/rate-limiter";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -10,11 +11,14 @@ const supabase = createClient(
 );
 
 export async function GET(request: Request) {
+	const ip = request.headers.get("x-forwarded-for") ?? "anon";
+	const rateLimitResponse = await checkRateLimits(ip);
+	if (rateLimitResponse) return rateLimitResponse;
 	const { searchParams } = new URL(request.url);
-	const gameName= searchParams.get("gameName");
-    const tagLine = searchParams.get("tagLine");
+	const gameName = searchParams.get("gameName");
+	const tagLine = searchParams.get("tagLine");
 	//update to one field
-	if (!gameName  || !tagLine) {
+	if (!gameName || !tagLine) {
 		return new Response("Missing gameName or tagLine", { status: 400 });
 	}
 
@@ -23,7 +27,7 @@ export async function GET(request: Request) {
 			.from("User")
 			.select("hasConsented")
 			.eq("gameName", gameName)
-            .eq("tagLine", tagLine)
+			.eq("tagLine", tagLine)
 			.maybeSingle(); // ✅ won't throw if not found
 
 		if (error) {
