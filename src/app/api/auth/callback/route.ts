@@ -22,7 +22,7 @@ export async function GET(request: Request) {
 		return new Response("Missing code", { status: 400 }); 
 	}
 
-	try {
+	try {/*
 		// Exchange code for access token
 		const tokenRes = await fetch("https://auth.riotgames.com/token", {
 			method: "POST",
@@ -96,7 +96,7 @@ export async function GET(request: Request) {
 			console.error("Supabase upsert error:", error);
 			return Response.redirect(`${redirect}?status=error`);
 		}
-
+*/
 		return Response.redirect(`${redirect}?status=success`);
 	} catch (err: any) {
 		console.error("OAuth Error:", err.message);
