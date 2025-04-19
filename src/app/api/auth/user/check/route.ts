@@ -11,19 +11,17 @@ const supabase = createClient(
 
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
-	const gameName = searchParams.get("gameName");
-	const tagLine = searchParams.get("tagLine");
+	const gameNameAndTag = searchParams.get("gameNameAndTag");
 	//update to one field
-	if (!gameName || !tagLine) {
+	if (!gameNameAndTag) {
 		return new Response("Missing gameName or tagLine", { status: 400 });
 	}
 
 	try {
 		const { data, error } = await supabase
 			.from("User")
-			.select("id")
-			.eq("gameName", gameName)
-			.eq("tagLine", tagLine)
+			.select("hasConsented")
+			.eq("gameNameAndTag", gameNameAndTag)
 			.maybeSingle(); // ✅ won't throw if not found
 
 		if (error) {
@@ -31,8 +29,7 @@ export async function GET(request: Request) {
 			return new Response("Error checking user", { status: 500 });
 		}
 
-		const exists = !!data;
-		return new Response(JSON.stringify({ exists }), {
+		return new Response(JSON.stringify({ data }), {
 			status: 200,
 			headers: { "Content-Type": "application/json" },
 		});
