@@ -11,10 +11,19 @@ export async function GET(req: Request) {
 	const matchID = searchParams.get("matchID");
 
 	if (internalKey !== process.env.INTERNAL_TOKEN) {
-		return new Response(JSON.stringify({ error: "Forbidden" }), {
-			status: 403,
-			headers: { "Content-Type": "application/json" },
-		});
+		return new Response(
+			JSON.stringify({
+				error: "Forbidden",
+				debug: {
+					internalKey,
+					expectedToken: process.env.INTERNAL_TOKEN,
+				},
+			}),
+			{
+				status: 403,
+				headers: { "Content-Type": "application/json" },
+			}
+		);
 	}
 
 	if (!matchID) {
