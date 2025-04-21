@@ -12,10 +12,15 @@ export async function GET(req: Request) {
 
 	if (internalKey !== process.env.INTERNAL_TOKEN) {
 		//send 200 with key
-		return new Response(JSON.stringify({ error: process.env.INTERNAL_TOKEN }), {
-			status: 200,
-			headers: { "Content-Type": "application/json" },
-		});
+		return new Response(
+			JSON.stringify({
+				error: `${process.env.INTERNAL_TOKEN} is what we have, looking for: ${internalKey}`,
+			}),
+			{
+				status: 200,
+				headers: { "Content-Type": "application/json" },
+			}
+		);
 	}
 
 	if (!matchID) {
