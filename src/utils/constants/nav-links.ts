@@ -12,9 +12,4 @@ export const NAV_LINKS = [
 		title: 'Our Discord',
 		href: 'https://discord.gg/KA4RBDmFEk',
 	},
-
-	{
-		title: 'Changelog',
-		href: '/changelog',
-	},
 ];
