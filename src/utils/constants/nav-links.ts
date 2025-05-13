@@ -1,13 +1,20 @@
-import { HelpCircleIcon, LineChartIcon, Link2Icon, LockIcon, NewspaperIcon, QrCodeIcon } from "lucide-react";
+import {
+	HelpCircleIcon,
+	LineChartIcon,
+	Link2Icon,
+	LockIcon,
+	NewspaperIcon,
+	QrCodeIcon,
+} from 'lucide-react';
 
 export const NAV_LINKS = [
-    {
-        title: "Our Discord",
-        href: "https://discord.gg/wjrYA235",
-    },
+	{
+		title: 'Our Discord',
+		href: 'https://discord.gg/KA4RBDmFEk',
+	},
 
-    {
-        title: "Changelog",
-        href: "/changelog",
-    },
+	{
+		title: 'Changelog',
+		href: '/changelog',
+	},
 ];

@@ -8,7 +8,7 @@ const TermsPage = () => {
 				<h1 className='text-4xl md:text-6xl font-heading font-bold my-12 text-center w-full'>
 					Terms of Service
 				</h1>
-				<p className='text-sm mb-2 italic mt-20'>Last updated: April 8, 2025</p>
+				<p className='text-sm mb-2 italic mt-20'>Last updated: May 13, 2025</p>
 				<p className='mt-4'>
 					Welcome to Valysis. These terms and conditions outline the rules and
 					regulations for the use of Valysis&apos;s website, mobile application,
@@ -153,7 +153,7 @@ const TermsPage = () => {
 				<h2 className='text-xl font-medium mt-12'>Contact Us</h2>
 				<p className='mt-8 text-muted-foreground'>
 					If you have any questions or concerns about these Terms and
-					Conditions, please contact us at support@valysis.io.
+					Conditions, please contact us at muhammed.s.elsayed@gmail.com.
 				</p>
 
 				<p className='mt-8 font-medium'>

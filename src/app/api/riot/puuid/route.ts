@@ -1,47 +1,28 @@
-export const runtime = "edge";
+export default {
+	async scheduled(_event, env, _ctx): Promise<void> {
+		try {
+			const url = `${env.SUPABASE_URL}/rest/v1/?apikey=${env.SUPABASE_ANON_KEY}`;
 
-import { getRiotPUUID } from "@/lib/riot/getRiotPUUID";
-import { checkRateLimits, isRateLimited } from "@/utils/rate-limiter";
+			const res = await fetch(url, {
+				method: 'GET',
+				headers: {
+					apikey: env.SUPABASE_ANON_KEY,
+					Authorization: `Bearer ${env.SUPABASE_ANON_KEY}`,
+				},
+			});
 
-export async function GET(req: Request) {
-	const ip = req.headers.get("x-forwarded-for") ?? "anon";
-	const rateLimitResponse = await checkRateLimits(ip);
-	if (rateLimitResponse) return rateLimitResponse;
-	const { searchParams } = new URL(req.url);
-	const internalKey = req.headers.get("x-internal-token");
-
-	if (internalKey !== process.env.INTERNAL_TOKEN) {
-		return new Response(JSON.stringify({ error: "Forbidden" }), {
-			status: 403,
-			headers: { "Content-Type": "application/json" },
-		});
-	}
-
-	const name = searchParams.get("name");
-	const region = searchParams.get("region");
-
-	if (!name || !region || !name.includes("#")) {
-		return new Response(
-			JSON.stringify({ error: "Missing or invalid name/region" }),
-			{
-				status: 400,
-				headers: { "Content-Type": "application/json" },
+			if (res.ok) {
+				console.log(`Supabase ping OK`);
+			} else {
+				console.error(
+					`Supabase ping failed: ${res.status} - ${await res.text()}`
+				);
 			}
-		);
-	}
-
-	const [gameName, tagLine] = name.split("#");
-
-	try {
-		const puuid = await getRiotPUUID(gameName, tagLine, region);
-		return new Response(JSON.stringify({ puuid }), {
-			headers: { "Content-Type": "application/json" },
-		});
-	} catch (err) {
-		console.error("Error fetching PUUID:", err);
-		return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-			status: 500,
-			headers: { "Content-Type": "application/json" },
-		});
-	}
-}
+		} catch (err) {
+			console.error('Ping error:', err);
+		}
+	},
+} satisfies ExportedHandler<{
+	SUPABASE_URL: string;
+	SUPABASE_ANON_KEY: string;
+}>;

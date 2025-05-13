@@ -39,7 +39,7 @@ const Footer = () => {
 						<ul className='mt-4 text-sm text-muted-foreground space-y-2'>
 							<li>
 								<Link
-									href=''
+									href='https://discord.gg/KA4RBDmFEk'
 									className='hover:text-foreground transition-all duration-300'
 								>
 									Discord
