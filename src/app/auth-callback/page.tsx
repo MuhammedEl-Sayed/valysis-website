@@ -1,4 +1,4 @@
-export const runtime = "edge"; // ✅ Use Edge Runtime
+'use client';
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
