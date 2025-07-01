@@ -1,6 +1,4 @@
-// src/app/api/auth/callback/route.ts
-
-export const runtime = "edge"; // ✅ Use Edge Runtime
+export const runtime = "edge";
 
 import { createClient } from "@supabase/supabase-js";
 
@@ -12,17 +10,19 @@ const supabase = createClient(
 function toBase64(str: string) {
 	return Buffer.from(str).toString("base64");
 }
+
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const code = searchParams.get("code");
-	const redirect = "valysis://auth/callback";
 
 	if (!code) {
-		return new Response("Missing code", { status: 400 });
+		return Response.json(
+			{ status: "error", message: "Missing code" },
+			{ status: 400 }
+		);
 	}
 
 	try {
-		// Exchange code for access token
 		const tokenRes = await fetch("https://auth.riotgames.com/token", {
 			method: "POST",
 			headers: {
@@ -41,13 +41,12 @@ export async function GET(request: Request) {
 		if (!tokenRes.ok) {
 			const error = await tokenRes.text();
 			console.error("Token exchange failed:", error);
-			return Response.redirect(`${redirect}?status=error`);
+			return Response.json({ status: "error", message: "token_failed" });
 		}
 
 		const tokenData = await tokenRes.json();
 		const accessToken = tokenData.access_token;
 
-		// Get PUUID from Riot Account endpoint
 		const accountRes = await fetch(
 			"https://americas.api.riotgames.com/riot/account/v1/accounts/me",
 			{
@@ -59,13 +58,12 @@ export async function GET(request: Request) {
 
 		if (!accountRes.ok) {
 			const error = await accountRes.text();
-			console.error("Failed to get account data:", error);
-			return Response.redirect(`${redirect}?status=error`);
+			console.error("Account fetch failed:", error);
+			return Response.json({ status: "error", message: "account_failed" });
 		}
 
 		const { puuid, gameName, tagLine } = await accountRes.json();
 
-		// Store in Supabase
 		const { error } = await supabase
 			.from("User")
 			.upsert(
@@ -75,12 +73,12 @@ export async function GET(request: Request) {
 
 		if (error) {
 			console.error("Supabase upsert error:", error);
-			return Response.redirect(`${redirect}?status=error`);
+			return Response.json({ status: "error", message: "db_failed" });
 		}
 
-		return Response.redirect(`${redirect}?status=success`);
+		return Response.json({ status: "success" });
 	} catch (err: any) {
 		console.error("OAuth Error:", err.message);
-		return Response.redirect(`${redirect}?status=error`);
+		return Response.json({ status: "error", message: "exception" });
 	}
 }

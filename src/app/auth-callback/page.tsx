@@ -1,30 +1,51 @@
-'use client';
+export const runtime = "edge"; // ✅ Use Edge Runtime
 
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { cn } from "@/utils";
 
-const AuthCallbackPage = () => {
+export default function AuthCallbackPage() {
 	const router = useRouter();
+	const searchParams = useSearchParams();
+	const code = searchParams.get("code");
+	const redirect = "valysis://auth/callback";
 
 	useEffect(() => {
-		const searchParams = new URLSearchParams(window.location.search);
-
-		const code = searchParams.get('code');
-
-		if (code) {
-			// Redirect back to your Flutter app with the code
-			window.location.href = `valysis://auth?code=${code}`;
+		if (!code) {
+			// No code? Just deep link immediately
+			window.location.href = `${redirect}?status=error`;
+			return;
 		}
-	}, []);
+
+		const processOAuth = async () => {
+			try {
+				const res = await fetch(`/api/auth/callback?code=${code}`);
+				const data = await res.json();
+
+				if (data.status === "success") {
+					window.location.href = `${redirect}?status=success`;
+				} else {
+					throw new Error("API returned error");
+				}
+			} catch (err) {
+				console.error("OAuth processing failed, retrying deep link...");
+				setTimeout(() => {
+					window.location.href = `${redirect}?status=error`;
+				}, 5000);
+			}
+		};
+
+		processOAuth();
+	}, [code]);
+
 	return (
-		<div className='flex items-center justify-center flex-col h-screen relative'>
-			<div className='border-[3px] border-neutral-800 rounded-full border-b-neutral-200 animate-loading w-8 h-8'></div>
-			<p className='text-lg font-medium text-center mt-3'>
-				Redirecting you to Valysis...
-			</p>
+		<div className="flex items-center justify-center min-h-screen">
+			<div className="flex flex-col items-center">
+				<div className={cn("inline-block")}>
+					<div className="h-10 w-10 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+				</div>
+				<p className="mt-4 text-sm text-muted-foreground">Processing sign-in…</p>
+			</div>
 		</div>
 	);
-};
-
-export default AuthCallbackPage;
+}
