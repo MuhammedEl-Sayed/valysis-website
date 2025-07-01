@@ -1,18 +1,19 @@
-'use client';
+"use client";
 
 import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { cn } from "@/utils";
 
+// 👇 Add this if you're using static export or get build errors
+export const dynamic = "force-dynamic";
+
 export default function AuthCallbackPage() {
-	const router = useRouter();
 	const searchParams = useSearchParams();
 	const code = searchParams.get("code");
 	const redirect = "valysis://auth/callback";
 
 	useEffect(() => {
 		if (!code) {
-			// No code? Just deep link immediately
 			window.location.href = `${redirect}?status=error`;
 			return;
 		}
@@ -27,8 +28,8 @@ export default function AuthCallbackPage() {
 				} else {
 					throw new Error("API returned error");
 				}
-			} catch (err) {
-				console.error("OAuth processing failed, retrying deep link...");
+			} catch {
+				console.error("OAuth failed, retrying deep link...");
 				setTimeout(() => {
 					window.location.href = `${redirect}?status=error`;
 				}, 5000);
@@ -44,8 +45,10 @@ export default function AuthCallbackPage() {
 				<div className={cn("inline-block")}>
 					<div className="h-10 w-10 rounded-full border-4 border-primary border-t-transparent animate-spin" />
 				</div>
-				<p className="mt-4 text-sm text-muted-foreground">Processing sign-in…</p>
+
+				<p className="mt-4 text-sm text-muted-foreground">Processing your login…</p>
 			</div>
 		</div>
 	);
 }
+
