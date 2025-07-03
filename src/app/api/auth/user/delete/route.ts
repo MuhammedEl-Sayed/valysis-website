@@ -12,8 +12,11 @@ export async function DELETE(req: Request) {
 	const rateLimitResponse = await checkRateLimits(ip);
 	if (rateLimitResponse) return rateLimitResponse;
 	const internalToken = req.headers.get("x-internal-token");
-	if (internalToken !== process.env.INTERNAL_SECRET) {
-		return new Response("Unauthorized", { status: 401 });
+	if (internalToken !== process.env.INTERNAL_TOKEN) {
+		return new Response(JSON.stringify({ error: "Forbidden" }), {
+			status: 403,
+			headers: { "Content-Type": "application/json" },
+		});
 	}
 
 	const { puuid } = await req.json();
