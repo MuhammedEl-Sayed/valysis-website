@@ -34,7 +34,7 @@ export async function GET(request: Request) {
 		const { data, error } = await supabase
 			.from("User")
 			.select("hasConsented")
-			.eq("gameName", gameName)
+			.ilike("gameName", gameName)
 			.eq("tagLine", tagLine)
 			.maybeSingle();
 
