@@ -16,15 +16,7 @@ const Footer = () => {
 						<p className='text-muted-foreground mt-4 text-sm'>
 							Improve your rank with stats.
 						</p>
-						<span className='mt-4 text-neutral-200 text-sm'>
-							Made by{' '}
-							<Link
-								href='https://www.linkedin.com/in/muhammedelsayed/'
-								className='font-semibold ml-1'
-							>
-								Muhammed
-							</Link>
-						</span>
+
 						<p className='text-sm text-muted-foreground mt-4'>
 							&copy; {new Date().getFullYear()} Valysis. All rights reserved.
 						</p>
