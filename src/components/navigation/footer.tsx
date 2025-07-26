@@ -26,8 +26,7 @@ const Footer = () => {
 							</Link>
 						</span>
 						<p className='text-sm text-muted-foreground mt-4'>
-							&copy; {new Date().getFullYear()} Valysis INC. All rights
-							reserved.
+							&copy; {new Date().getFullYear()} Valysis. All rights reserved.
 						</p>
 					</div>
 				</AnimationContainer>

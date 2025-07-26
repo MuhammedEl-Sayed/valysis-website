@@ -153,7 +153,7 @@ const TermsPage = () => {
 				<h2 className='text-xl font-medium mt-12'>Contact Us</h2>
 				<p className='mt-8 text-muted-foreground'>
 					If you have any questions or concerns about these Terms and
-					Conditions, please contact us at muhammed.s.elsayed@gmail.com.
+					Conditions, please contact us at contact@valysis.com.
 				</p>
 
 				<p className='mt-8 font-medium'>

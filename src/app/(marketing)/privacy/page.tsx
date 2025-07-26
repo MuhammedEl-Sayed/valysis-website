@@ -148,7 +148,7 @@ const Privacy = () => {
 				</p>
 				<ul className='list-none ml-0 mt-2 text-muted-foreground'>
 					<li>
-						<strong>Email:</strong> muhammed.s.elsayed@gmail.com
+						<strong>Email:</strong> contact@valysis.com
 					</li>
 					<li>
 						<strong>Location:</strong> New Jersey, USA
