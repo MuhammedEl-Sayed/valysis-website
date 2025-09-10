@@ -41,7 +41,7 @@ const HomePage = async () => {
 							Effortlessly track and visualize your stats with Valysis.{' '}
 							<br className='hidden md:block' />
 							<span className='hidden md:block'>
-								Analyze, plan, and optimize your performance—all in one place.
+								Analyze, plan, and optimize your performance, all in one place.
 							</span>
 						</p>
 						<div className='flex items-center justify-center whitespace-nowrap gap-4 z-50'>
