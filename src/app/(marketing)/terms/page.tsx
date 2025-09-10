@@ -12,8 +12,8 @@ const TermsPage = () => {
 
 				<p className='mt-4'>
 					Welcome to Valysis. These terms and conditions outline the rules and
-					regulations for the use of Valysis's website, mobile application, and
-					services.
+					regulations for the use of Valysis&apos;s website, mobile application,
+					and services.
 				</p>
 
 				<h2 className='text-xl font-medium mt-8'>Acceptance of Terms</h2>
