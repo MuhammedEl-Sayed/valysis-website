@@ -48,32 +48,38 @@ const HomePage = async () => {
 							<Button asChild></Button>
 						</div>
 
-						<div className='flex items-center justify-center gap-4 mt-8'>
+						<div className='flex items-center justify-center whitespace-nowrap gap-4 z-50'>
+						<Button asChild>
 							<Link
-								href='https://apps.apple.com/app/id6449222801'
+								href='https://discord.gg/KA4RBDmFEk'
 								target='_blank'
-								className='flex items-center justify-center gap-2'
 							>
-								<Image
-									src='/assets/app-store-badge.png'
-									alt='App Store'
-									width={150}
-									height={50}
-								/>
+								Join the Open Beta on Discord
+								<ArrowRightIcon className='ml-2 h-4 w-4' />
 							</Link>
-							<Link
-								href='https://play.google.com/store/apps/details?id=com.valysis'
-								target='_blank'
-								className='flex items-center justify-center gap-2'
-							>
-								<Image
-									src='/assets/google-play-badge.png'
-									alt='Google Play'
-									width={150}
-									height={50}
-								/>
-							</Link>
-						</div>
+						</Button>
+					</div>
+					
+					<p className='mt-6 text-sm text-muted-foreground'>
+						Valysis is currently in <span className='font-semibold'>open beta</span>.  
+						The app is <span className='font-semibold'>not yet available</span> on Google Play or the App Store.  
+						Join our Discord to get early access!
+					</p>
+					
+					<div className='flex items-center justify-center gap-4 mt-8 opacity-50 pointer-events-none'>
+						<Image
+							src='/assets/app-store-badge.png'
+							alt='App Store (Coming Soon)'
+							width={150}
+							height={50}
+						/>
+						<Image
+							src='/assets/google-play-badge.png'
+							alt='Google Play (Coming Soon)'
+							width={150}
+							height={50}
+						/>
+					</div>
 					</AnimationContainer>
 
 					<AnimationContainer
