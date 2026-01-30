@@ -9,6 +9,7 @@ export async function GET(req: Request) {
 	const { searchParams } = new URL(req.url);
 	const internalKey = req.headers.get("x-internal-token");
 	const puuid = searchParams.get("puuid");
+	const shard = searchParams.get("shard")
 
 	if (internalKey !== process.env.INTERNAL_TOKEN) {
 		return new Response(JSON.stringify({ error: "Forbidden" }), {
@@ -24,9 +25,16 @@ export async function GET(req: Request) {
 		});
 	}
 
+		if (!shard) {
+		return new Response(JSON.stringify({ error: "Missing shard" }), {
+			status: 400,
+			headers: { "Content-Type": "application/json" },
+		});
+	}
+
 	try {
 		const riotRes = await fetch(
-			`https://na.api.riotgames.com/val/match/v1/matchlists/by-puuid/${puuid}`,
+			`https://${shard}.api.riotgames.com/val/match/v1/matchlists/by-puuid/${puuid}`,
 			{
 				headers: {
 					"X-Riot-Token": process.env.RIOT_API_KEY!,
