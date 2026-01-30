@@ -18,11 +18,11 @@ export async function GET(req: Request) {
 	}
 
 	const name = searchParams.get("name");
-	const region = searchParams.get("region");
+	const shard = searchParams.get("shard");
 
-	if (!name || !region || !name.includes("#")) {
+	if (!name || !shard || !name.includes("#")) {
 		return new Response(
-			JSON.stringify({ error: "Missing or invalid name/region" }),
+			JSON.stringify({ error: "Missing or invalid name/shard" }),
 			{
 				status: 400,
 				headers: { "Content-Type": "application/json" },
@@ -33,11 +33,11 @@ export async function GET(req: Request) {
 	const [gameName, tagLine] = name.split("#");
 
 	try {
-		const puuid = await getRiotPUUID(gameName, tagLine, region);
+		const puuid = await getRiotPUUID(gameName, tagLine, shard);
 		return new Response(JSON.stringify({ puuid }), {
 			headers: { "Content-Type": "application/json" },
 		});
-	} catch (err) {
+	} catch (err) {``
 		console.error("Error fetching PUUID:", err);
 		return new Response(JSON.stringify({ error: "Internal Server Error" }), {
 			status: 500,
