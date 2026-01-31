@@ -36,7 +36,7 @@ function AuthCallbackInner() {
 
 		const processOAuth = async () => {
 			try {
-				const res = await fetch(`/api/auth/callback?code=${code}?shard=${shard || ""}`);
+				const res = await fetch(`/api/auth/callback?code=${code}&shard=${shard || ""}`);
 				const data = await res.json();
 
 				if (data.status === "success") {

@@ -86,7 +86,6 @@ export async function GET(request: Request) {
 				tagLine,
 				shard,
 				hasConsented: true,
-				region: null,
 				normalizedGameName,
 				normalizedTagLine,
 			},
