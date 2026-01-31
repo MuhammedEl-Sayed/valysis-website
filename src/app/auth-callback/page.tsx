@@ -7,9 +7,25 @@ import { cn } from "@/utils";
 // 👇 This disables prerender/SSG and ensures client-side rendering
 export const dynamic = "force-dynamic";
 
+function decodeShard(state: string | null) {
+
+
+if (state) {
+  try {
+    const decoded = JSON.parse(
+      atob(state.replace(/-/g, '+').replace(/_/g, '/'))
+    );
+   return decoded.shard;
+  } catch (e) {
+    console.error("Failed to decode OAuth state", e);
+  }
+}
+}
+
 function AuthCallbackInner() {
 	const searchParams = useSearchParams();
 	const code = searchParams.get("code");
+	const shard = decodeShard(searchParams.get("state"));
 	const redirect = "valysis://auth/callback";
 
 	useEffect(() => {
@@ -20,7 +36,7 @@ function AuthCallbackInner() {
 
 		const processOAuth = async () => {
 			try {
-				const res = await fetch(`/api/auth/callback?code=${code}`);
+				const res = await fetch(`/api/auth/callback?code=${code}?shard=${shard || ""}`);
 				const data = await res.json();
 
 				if (data.status === "success") {

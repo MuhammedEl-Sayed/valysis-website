@@ -10,10 +10,18 @@ const supabase = createClient(
 function toBase64(str: string) {
 	return Buffer.from(str).toString('base64');
 }
-
+const shardToRegion: Record<string, string> = {
+	na: 'americas',
+	br: 'americas',
+	latam: 'americas',
+	eu: 'europe',
+	ap: 'asia',
+	kr: 'asia',
+};
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const code = searchParams.get('code');
+	const shard = searchParams.get('shard');
 
 	if (!code) {
 		return Response.json(
@@ -21,7 +29,10 @@ export async function GET(request: Request) {
 			{ status: 400 }
 		);
 	}
-
+	if (!shard || !(shard in shardToRegion)) {
+		return Response.json({ status: 'error', message: 'invalid_shard' }, { status: 400 });
+	}
+	const region = shardToRegion[shard];
 	try {
 		const tokenRes = await fetch('https://auth.riotgames.com/token', {
 			method: 'POST',
@@ -48,11 +59,9 @@ export async function GET(request: Request) {
 		const accessToken = tokenData.access_token;
 
 		const accountRes = await fetch(
-			'https://americas.api.riotgames.com/riot/account/v1/accounts/me',
+		`https://${region}.api.riotgames.com/riot/account/v1/accounts/me`,
 			{
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
+				headers: { Authorization: `Bearer ${accessToken}` },
 			}
 		);
 
@@ -75,6 +84,7 @@ export async function GET(request: Request) {
 				puuid,
 				gameName,
 				tagLine,
+				shard,
 				hasConsented: true,
 				region: null,
 				normalizedGameName,
