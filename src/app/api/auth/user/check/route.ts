@@ -2,6 +2,7 @@
 
 export const runtime = 'edge'; // ✅ Use Edge Runtime
 
+import { normalizeString } from '@/utils/functions/normalizeString';
 import { checkRateLimits, isRateLimited } from '@/utils/rate-limiter';
 import { createClient } from '@supabase/supabase-js';
 
@@ -29,9 +30,8 @@ export async function GET(request: Request) {
 	if (!gameName || !tagLine) {
 		return new Response('Missing gameName or tagLine', { status: 400 });
 	}
-	const normalize = (str: string) => str.replace(/\s+/g, '').toLowerCase();
-	const normalizedGameName = normalize(gameName);
-	const normalizedTagLine = normalize(tagLine);
+	const normalizedGameName = normalizeString(gameName);
+	const normalizedTagLine = normalizeString(tagLine);
 
 	try {
 		const { data, error } = await supabase

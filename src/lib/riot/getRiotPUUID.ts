@@ -7,23 +7,22 @@ const supabase = createClient(
 );
 
 export async function getRiotPUUID(
-	gameName: string,
-	tagLine: string,
+	normalizedGameName: string,
+	normalizedTagLine: string,
 	shard: string
 ) {
-	console.log("Fetching PUUID for:", gameName, tagLine, shard);
+	console.log("Fetching PUUID for:", normalizedGameName, normalizedTagLine, shard);
 	// Check if the user exists in the database
 	const { data, error } = await supabase
 		.from("User")
 		.select("puuid")
-		.eq("gameName", gameName)
-		.eq("tagLine", tagLine)
+		.eq("normalizedGameName", normalizedGameName)
+		.eq("normalizedTagLine", normalizedTagLine)
 		.eq("shard", shard)
-		// TODO: Add region filtering if needed
 		.single();
 
 	if (error || !data) {
-		throw new Error(`User not found for ${gameName}#${tagLine} in region ${shard}`);
+		throw new Error(`User not found for ${normalizedGameName}#${normalizedTagLine} in region ${shard}`);
 	}
 
 	return data.puuid;
