@@ -26,6 +26,7 @@ export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const gameName = searchParams.get('gameName');
 	const tagLine = searchParams.get('tagLine');
+	const shard = searchParams.get('shard');
 	//update to one field
 	if (!gameName || !tagLine) {
 		return new Response('Missing gameName or tagLine', { status: 400 });
@@ -39,6 +40,7 @@ export async function GET(request: Request) {
 			.select('hasConsented')
 			.eq('normalizedGameName', normalizedGameName)
 			.eq('normalizedTagLine', normalizedTagLine)
+			.eq('shard', shard)
 			.maybeSingle(); // ✅ won't throw if not found
 
 		if (error) {
