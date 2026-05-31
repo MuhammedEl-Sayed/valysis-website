@@ -1,6 +1,6 @@
 import { checkRateLimits, isRateLimited } from "@/utils/rate-limiter";
 import { createClient } from "@supabase/supabase-js";
-
+import { XMLParser } from 'fast-xml-parser';
 export const runtime = "edge";
 
 
@@ -35,8 +35,11 @@ export async function GET(req: Request) {
 			status: 500,
 			headers: { "Content-Type": "application/json" },
 		});
-  
-    }
+     }
+
+    const text = await data.text();
+    return new Response(new XMLParser().parse(text), {headers: {"Content-Type": "text/xml"}}); 
+
   }
 catch(err){
     console.error("Error fetching appcast:", err);
