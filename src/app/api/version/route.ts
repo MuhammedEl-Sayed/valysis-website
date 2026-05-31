@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { XMLParser } from 'fast-xml-parser';
 export const runtime = "edge";
 
-
+console.log()
 const supabase = createClient(
 	process.env.SUPABASE_URL!,
 process.env.SUPABASE_SERVICE_ACC_KEY!
@@ -38,7 +38,7 @@ export async function GET(req: Request) {
      }
 
     const text = await data.text();
-    return new Response(new XMLParser().parse(text), {headers: {"Content-Type": "text/xml"}}); 
+    return new Response(text, {headers: {"Content-Type": "text/xml"}}); 
 
   }
 catch(err){
