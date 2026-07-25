@@ -29,8 +29,8 @@ function AuthCallbackInner() {
 	const searchParams = useSearchParams();
 	const code = searchParams.get("code");
 	const state = decodeState(searchParams.get("state"));
-	const shard = state.shard;
-	const riotNameAndTag = state.riotNameAndTag;
+	const shard = state?.shard ?? '';
+	const riotNameAndTag = state?.riotNameAndTag ?? '';
 	const redirect = "valysis://auth/callback";
 
 	useEffect(() => {
