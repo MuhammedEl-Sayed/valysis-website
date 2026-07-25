@@ -7,7 +7,7 @@ import { cn } from "@/utils";
 // 👇 This disables prerender/SSG and ensures client-side rendering
 export const dynamic = "force-dynamic";
 
-function decodeShard(state: string | null) {
+function decodeState(state: string | null) {
 
 
 if (state) {
@@ -15,7 +15,10 @@ if (state) {
     const decoded = JSON.parse(
       atob(state.replace(/-/g, '+').replace(/_/g, '/'))
     );
-   return decoded.shard;
+   return {
+   	shard: decoded.shard,
+	riotNameAndTag: decoded.gameNameAndTag,
+   }
   } catch (e) {
     console.error("Failed to decode OAuth state", e);
   }
@@ -25,7 +28,9 @@ if (state) {
 function AuthCallbackInner() {
 	const searchParams = useSearchParams();
 	const code = searchParams.get("code");
-	const shard = decodeShard(searchParams.get("state"));
+	const state = decodeState(searchParams.get("state"));
+	const shard = state.shard;
+	const riotNameAndTag = state.riotNameAndTag;
 	const redirect = "valysis://auth/callback";
 
 	useEffect(() => {
@@ -36,7 +41,7 @@ function AuthCallbackInner() {
 
 		const processOAuth = async () => {
 			try {
-				const res = await fetch(`/api/auth/callback?code=${code}&shard=${shard || ""}`);
+				const res = await fetch(`/api/auth/callback?code=${code}&shard=${shard || ""}&riotNameAndTag=${riotNameAndTag || ""}`);
 				const data = await res.json();
 
 				if (data.status === "success") {
