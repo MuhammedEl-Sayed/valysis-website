@@ -89,7 +89,7 @@ export async function GET(request: Request) {
 				hasConsented: true,
 				normalizedGameName,
 				normalizedTagLine,
-				riotNameAndTag,
+				normalize(riotNameAndTag),
 			},
 			{ onConflict: 'puuid' }
 		);
