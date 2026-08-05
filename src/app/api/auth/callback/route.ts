@@ -22,7 +22,6 @@ export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const code = searchParams.get('code');
 	const shard = searchParams.get('shard');
-	const riotNameAndTag = searchParams.get('riotNameAndTag');
 
 	if (!code) {
 		return Response.json(
@@ -89,7 +88,6 @@ export async function GET(request: Request) {
 				hasConsented: true,
 				normalizedGameName,
 				normalizedTagLine,
-				normalize(riotNameAndTag),
 			},
 			{ onConflict: 'puuid' }
 		);
