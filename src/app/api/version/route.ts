@@ -16,8 +16,15 @@ export async function GET(req: Request) {
 	const rateLimitResponse = await checkRateLimits(ip);
 	const { searchParams } = new URL(req.url);
   if (rateLimitResponse) return rateLimitResponse;
+	const internalKey = req.headers.get("x-internal-token");
   const env = searchParams.get("env"); 
-
+	if (internalKey !== process.env.INTERNAL_TOKEN) {
+		return new Response(JSON.stringify({ error: "Forbidden" }), {
+			status: 403,
+			headers: { "Content-Type": "application/json" },
+		});
+	}
+  
   try{
 
     const storageClient = supabase.storage;
