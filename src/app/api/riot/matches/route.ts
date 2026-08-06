@@ -48,6 +48,7 @@ export async function GET(req: Request) {
 			: DEFAULT_PAGE_SIZE;
 
 	try {
+		// --- 1. Fetch the matchlist (summaries only) ---
 		const riotRes = await fetch(
 			`https://${shard}.api.riotgames.com/val/match/v1/matchlists/by-puuid/${puuid}`,
 			{
@@ -68,7 +69,9 @@ export async function GET(req: Request) {
 		}
 
 		const data = await riotRes.json();
-		const history: unknown[] = Array.isArray(data.history) ? data.history : [];
+		const history: { matchId: string }[] = Array.isArray(data.history)
+			? data.history
+			: [];
 
 		const total = history.length;
 		const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -76,9 +79,45 @@ export async function GET(req: Request) {
 		const end = start + pageSize;
 		const pagedHistory = history.slice(start, end);
 
+		// --- 2. Fetch full match details for each matchId on this page ---
+		const matchDetailResults = await Promise.allSettled(
+			pagedHistory.map(async (match) => {
+				const matchRes = await fetch(
+					`https://${shard}.api.riotgames.com/val/match/v1/matches/${match.matchId}`,
+					{
+						headers: {
+							"X-Riot-Token": process.env.RIOT_API_KEY!,
+						},
+					}
+				);
+
+				if (!matchRes.ok) {
+					throw new Error(
+						`Failed to fetch match ${match.matchId}: ${matchRes.status}`
+					);
+				}
+
+				return matchRes.json();
+			})
+		);
+
+		const matches = matchDetailResults
+			.filter(
+				(result): result is PromiseFulfilledResult<unknown> =>
+					result.status === "fulfilled"
+			)
+			.map((result) => result.value);
+
+		const failedCount = matchDetailResults.length - matches.length;
+		if (failedCount > 0) {
+			console.error(
+				`${failedCount} of ${pagedHistory.length} match detail fetches failed`
+			);
+		}
+
 		return new Response(
 			JSON.stringify({
-				history: pagedHistory,
+				matches,
 				pagination: {
 					page,
 					pageSize,
