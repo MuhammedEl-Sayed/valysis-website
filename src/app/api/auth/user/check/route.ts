@@ -38,8 +38,8 @@ export async function GET(request: Request) {
 		const { data, error } = await supabase
 			.from('User')
 			.select('hasConsented')
-			.eq('riotNameAndTag', `${normalizedGameName}#${normalizedTagLine}`)
-			.eq('shard', shard)
+		.eq('normalizedGameName', normalizedGameName)
+			.eq('normalizedTagLine', normalizedTagLine)			.eq('shard', shard)
 			.maybeSingle(); // ✅ won't throw if not found
 
 		if (error) {
