@@ -3,8 +3,9 @@ import { generateMetadata } from '@/utils';
 import React from 'react';
 
 export const metadata = generateMetadata({
-	title: 'Delete your data | Valysis',
+	title: 'Delete your data',
 	description: 'How to delete your Valysis account and data.',
+	path: '/delete-account',
 });
 
 const supportEmail = 'muhammed.s.elsayed@gmail.com';
@@ -38,22 +39,24 @@ const DeleteAccount = () => {
 					device straight away.
 				</p>
 
-				<h2 className='text-xl font-medium mt-12'>
-					Without the app
-				</h2>
+				<h2 className='text-xl font-medium mt-12'>On the web</h2>
 				<p className='mt-4 text-muted-foreground'>
-					Email us with your Riot ID and region, and we&apos;ll delete your
-					account within 30 days and reply to confirm.
+					Sign in with Riot so we know the account is yours, and we&apos;ll
+					delete it straight away.
 				</p>
 				<a
-					href={mailto}
+					href='/api/auth/delete-account/start'
 					className='inline-block mt-6 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity'
 				>
-					Email a deletion request
+					Sign in with Riot and delete
 				</a>
 				<p className='mt-4 text-sm text-muted-foreground'>
-					Or write to <strong>{supportEmail}</strong> with the subject
-					&ldquo;Delete my Valysis data&rdquo;.
+					Can&apos;t sign in?{' '}
+					<a href={mailto} className='underline'>
+						Email a deletion request
+					</a>{' '}
+					to <strong>{supportEmail}</strong> with your Riot ID and region.
+					We&apos;ll delete your account within 30 days and reply to confirm.
 				</p>
 
 				<h2 className='text-xl font-medium mt-12'>What gets deleted</h2>

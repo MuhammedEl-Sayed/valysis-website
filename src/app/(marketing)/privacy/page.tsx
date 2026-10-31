@@ -1,5 +1,12 @@
 import { AnimationContainer, MaxWidthWrapper } from '@/components';
 import React from 'react';
+import { generateMetadata } from '@/utils';
+
+export const metadata = generateMetadata({
+	title: 'Privacy Policy',
+	description: "How Valysis collects, uses and protects your data.",
+	path: '/privacy',
+});
 
 const Privacy = () => {
 	return (

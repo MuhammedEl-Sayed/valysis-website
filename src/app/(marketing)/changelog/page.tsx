@@ -1,5 +1,12 @@
 import AnimationContainer from "@/components/global/animation-container";
 import React from 'react'
+import { generateMetadata } from '@/utils';
+
+export const metadata = generateMetadata({
+	title: 'Changelog',
+	description: "What's new in each Valysis release.",
+	path: '/changelog',
+});
 
 const ChangeLogPage = () => {
     return (

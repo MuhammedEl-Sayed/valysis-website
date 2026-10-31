@@ -1,8 +1,20 @@
 import { Metadata } from 'next';
 
+export const SITE_URL = 'https://valysis.com';
+const SITE_NAME = 'Valysis';
+const DEFAULT_TITLE = 'Valysis: Valorant Stats Tracker for iOS and Android';
+const DEFAULT_DESCRIPTION =
+	'Valysis is a free Valorant stats tracker for iOS and Android. See every gunfight, round economy, kill and death heatmaps, agent matchups, and KDA, ACS and win rate trends for your matches.';
+
+/**
+ * Page metadata. With no `title` this is the site-wide default (used by the
+ * root layout); a page's `title` fills the "%s | Valysis" template. `path` sets
+ * the canonical URL and Open Graph URL.
+ */
 export const generateMetadata = ({
-	title = `Valysis`,
-	description = `Valysis is a mobile stats tracker for Valorant, providing heatmaps, insights, and domination stats to help you analyze and optimize your performance.`,
+	title,
+	description = DEFAULT_DESCRIPTION,
+	path = '/',
 	image = '/thumbnail.png',
 	icons = [
 		{
@@ -25,19 +37,42 @@ export const generateMetadata = ({
 }: {
 	title?: string;
 	description?: string;
+	path?: string;
 	image?: string | null;
 	icons?: Metadata['icons'];
 	noIndex?: boolean;
-} = {}): Metadata => ({
-	title,
-	description,
-	icons,
-	openGraph: {
-		title,
+} = {}): Metadata => {
+	const fullTitle = title ? `${title} | ${SITE_NAME}` : DEFAULT_TITLE;
+	return {
+		metadataBase: new URL(SITE_URL),
+		title: title ?? { default: DEFAULT_TITLE, template: `%s | ${SITE_NAME}` },
 		description,
-		...(image && { images: [{ url: image }] }),
-	},
-
-	metadataBase: new URL('https://valysis.com'),
-	...(noIndex && { robots: { index: false, follow: false } }),
-});
+		applicationName: SITE_NAME,
+		keywords: [
+			'Valorant stats',
+			'Valorant tracker',
+			'Valorant match history',
+			'Valorant heatmap',
+			'Valorant KDA',
+			'Valorant app',
+		],
+		icons,
+		alternates: { canonical: path },
+		openGraph: {
+			type: 'website',
+			siteName: SITE_NAME,
+			locale: 'en_US',
+			url: path,
+			title: fullTitle,
+			description,
+			...(image && { images: [{ url: image, alt: DEFAULT_TITLE }] }),
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title: fullTitle,
+			description,
+			...(image && { images: [image] }),
+		},
+		...(noIndex && { robots: { index: false, follow: false } }),
+	};
+};

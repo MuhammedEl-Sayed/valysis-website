@@ -23,10 +23,28 @@ import { COMPANIES, PROCESS } from '@/utils';
 import { REVIEWS } from '@/utils/constants/misc';
 import { ArrowRightIcon, CreditCardIcon, StarIcon } from 'lucide-react';
 import Image from 'next/image';
+import { SITE_URL } from '@/utils/functions/metadata';
 import Link from 'next/link';
+// Tells search engines this is a free mobile app.
+const appJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'MobileApplication',
+	name: 'Valysis',
+	url: SITE_URL,
+	operatingSystem: 'iOS, Android',
+	applicationCategory: 'UtilitiesApplication',
+	description:
+		'A free Valorant stats tracker: gunfights, round economy, heatmaps, agent matchups, and KDA, ACS and win rate trends.',
+	offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+};
+
 const HomePage = async () => {
 	return (
 		<div className='overflow-x-hidden scrollbar-hide size-full'>
+			<script
+				type='application/ld+json'
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
+			/>
 			{/* Hero Section */}
 			<MaxWidthWrapper>
 				<div className='flex flex-col items-center justify-center w-full text-center bg-gradient-to-t from-background'>
@@ -38,7 +56,7 @@ const HomePage = async () => {
 							</span>
 						</h1>
 						<p className='mb-12 text-lg tracking-tight text-muted-foreground md:text-xl text-balance'>
-							Effortlessly track and visualize your stats with Valysis.{' '}
+							Effortlessly track and visualize your Valorant stats with Valysis.{' '}
 							<br className='hidden md:block' />
 							<span className='hidden md:block'>
 								Analyze, plan, and optimize your performance, all in one place.
@@ -95,14 +113,14 @@ const HomePage = async () => {
 								<div className='hidden sm:flex gap-4 w-full'>
 									<Image
 										src='/assets/main.png'
-										alt='Dashboard'
+										alt='Valysis match history screen'
 										width={400}
 										height={400}
 										quality={100}
 									/>
 									<Image
 										src='/assets/analysis.png'
-										alt='Dashboard'
+										alt='Valysis match analysis screen'
 										width={400}
 										height={400}
 										quality={100}
