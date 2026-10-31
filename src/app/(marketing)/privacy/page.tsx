@@ -176,8 +176,8 @@ const Privacy = () => {
 
 				<h2 className='text-xl font-medium mt-12'>Deleting Your Data</h2>
 				<p className='mt-4 text-muted-foreground'>
-					You can delete your account and data in the app under Settings, or
-					by emailing us. See{' '}
+					You can delete your account and data in the app under Settings, on
+					the web by signing in with Riot, or by emailing us. See{' '}
 					<a href='/delete-account' className='underline'>
 						Delete your data
 					</a>{' '}
