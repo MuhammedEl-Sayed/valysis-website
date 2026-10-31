@@ -38,6 +38,6 @@ export const generateMetadata = ({
 		...(image && { images: [{ url: image }] }),
 	},
 
-	// metadataBase: new URL(process.env.APP_DOMAIN!),
+	metadataBase: new URL('https://valysis.com'),
 	...(noIndex && { robots: { index: false, follow: false } }),
 });

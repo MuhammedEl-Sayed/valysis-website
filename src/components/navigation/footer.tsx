@@ -52,6 +52,14 @@ const Footer = () => {
 									Terms & Conditions
 								</Link>
 							</li>
+							<li>
+								<Link
+									href='/delete-account'
+									className='hover:text-foreground transition-all duration-300'
+								>
+									Delete Your Data
+								</Link>
+							</li>
 						</ul>
 					</div>
 				</AnimationContainer>
