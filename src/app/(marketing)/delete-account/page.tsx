@@ -72,8 +72,8 @@ const DeleteAccount = () => {
 
 				<h2 className='text-xl font-medium mt-12'>What we keep</h2>
 				<p className='mt-4 text-muted-foreground'>
-					Nothing tied to your account. Crash reports, usage analytics and ad
-					data are collected by Google (Firebase and AdMob) without your Riot
+					Nothing tied to your account. Crash reports and usage analytics are
+					collected by Google (Firebase) without your Riot
 					ID, so they can&apos;t be traced back to your account. Google keeps
 					them under its own retention periods, described in the{' '}
 					<a href='/privacy' className='underline'>

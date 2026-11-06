@@ -15,7 +15,7 @@ const Privacy = () => {
 				<h1 className='text-4xl md:text-6xl font-heading font-bold my-12 text-center w-full'>
 					Privacy Policy
 				</h1>
-				<p className='text-sm mb-2 italic mt-20'>Last updated: October 31, 2026</p>
+				<p className='text-sm mb-2 italic mt-20'>Last updated: November 6, 2026</p>
 
 				<p className='mt-4'>
 					<strong>Valysis</strong> (“we,” “our,” or “us”) is committed to
@@ -111,7 +111,6 @@ const Privacy = () => {
 				<p className='mt-4 text-muted-foreground'>We use collected data to:</p>
 				<ul className='list-disc ml-8 text-muted-foreground mt-2'>
 					<li>Provide and maintain Valysis</li>
-					<li>Display ads and measure their effectiveness</li>
 					<li>Improve user experience and app performance</li>
 					<li>Understand and analyze usage trends</li>
 					<li>Respond to user support requests</li>
@@ -119,12 +118,9 @@ const Privacy = () => {
 
 				<h2 className='text-xl font-medium mt-12'>Advertising & Tracking</h2>
 				<p className='mt-4 text-muted-foreground'>
-					Valysis may display ads provided by Google Mobile Ads (AdMob). These
-					ads may use cookies and device identifiers (such as IDFA on iOS) to
-					show personalized or contextual ads and to measure ad performance. You
-					can opt out of personalized ads in your device settings. Valysis
-					doesn&apos;t ask for permission to track you on iOS, so AdMob
-					doesn&apos;t receive your IDFA there.
+					Valysis doesn&apos;t show ads and doesn&apos;t track you across other
+					apps or websites. It never reads your device&apos;s advertising ID
+					(IDFA on iOS, the advertising ID on Android).
 				</p>
 
 				<h2 className='text-xl font-medium mt-12'>
@@ -136,20 +132,6 @@ const Privacy = () => {
 					below:
 				</p>
 				<ul className='list-disc ml-8 text-muted-foreground mt-2'>
-					<li>
-						<strong>Google Mobile Ads (AdMob)</strong> — displays advertisements
-						and may collect device identifiers and interaction data to deliver
-						and measure ads. Learn more:{' '}
-						<a
-							href='https://policies.google.com/privacy'
-							className='underline'
-							target='_blank'
-							rel='noreferrer'
-						>
-							policies.google.com/privacy
-						</a>
-						.
-					</li>
 					<li>
 						<strong>Firebase Analytics, Crashlytics & Performance Monitoring</strong> — collects
 						aggregated app usage, performance metrics, and crash data to help us
