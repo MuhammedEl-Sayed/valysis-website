@@ -1,5 +1,12 @@
 import { AnimationContainer, MaxWidthWrapper } from '@/components';
 import Link from 'next/link';
+import { generateMetadata } from '@/utils';
+
+export const metadata = generateMetadata({
+	title: 'Terms & Conditions',
+	description: "The terms for using the Valysis app.",
+	path: '/terms',
+});
 
 const TermsPage = () => {
 	return (

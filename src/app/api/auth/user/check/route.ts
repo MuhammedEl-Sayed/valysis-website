@@ -2,12 +2,13 @@
 
 export const runtime = 'edge'; // ✅ Use Edge Runtime
 
+import { normalizeString } from '@/utils/functions/normalizeString';
 import { checkRateLimits, isRateLimited } from '@/utils/rate-limiter';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
 	process.env.SUPABASE_URL!,
-	process.env.SUPABASE_ANON_KEY!
+	process.env.SUPABASE_SERVICE_ACC_KEY!
 );
 
 export async function GET(request: Request) {
@@ -25,20 +26,20 @@ export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const gameName = searchParams.get('gameName');
 	const tagLine = searchParams.get('tagLine');
+	const shard = searchParams.get('shard');
 	//update to one field
 	if (!gameName || !tagLine) {
 		return new Response('Missing gameName or tagLine', { status: 400 });
 	}
-	const normalize = (str: string) => str.replace(/\s+/g, '').toLowerCase();
-	const normalizedGameName = normalize(gameName);
-	const normalizedTagLine = normalize(tagLine);
+	const normalizedGameName = normalizeString(gameName);
+	const normalizedTagLine = normalizeString(tagLine);
 
 	try {
 		const { data, error } = await supabase
 			.from('User')
 			.select('hasConsented')
-			.eq('normalizedGameName', normalizedGameName)
-			.eq('normalizedTagLine', normalizedTagLine)
+		.eq('normalizedGameName', normalizedGameName)
+			.eq('normalizedTagLine', normalizedTagLine)			.eq('shard', shard)
 			.maybeSingle(); // ✅ won't throw if not found
 
 		if (error) {

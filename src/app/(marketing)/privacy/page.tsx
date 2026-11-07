@@ -1,5 +1,12 @@
 import { AnimationContainer, MaxWidthWrapper } from '@/components';
 import React from 'react';
+import { generateMetadata } from '@/utils';
+
+export const metadata = generateMetadata({
+	title: 'Privacy Policy',
+	description: "How Valysis collects, uses and protects your data.",
+	path: '/privacy',
+});
 
 const Privacy = () => {
 	return (
@@ -8,7 +15,7 @@ const Privacy = () => {
 				<h1 className='text-4xl md:text-6xl font-heading font-bold my-12 text-center w-full'>
 					Privacy Policy
 				</h1>
-				<p className='text-sm mb-2 italic mt-20'>Last updated: April 8, 2025</p>
+				<p className='text-sm mb-2 italic mt-20'>Last updated: November 6, 2026</p>
 
 				<p className='mt-4'>
 					<strong>Valysis</strong> (“we,” “our,” or “us”) is committed to
@@ -57,14 +64,22 @@ const Privacy = () => {
 
 				<h3 className='text-lg mt-8'>Personal Data</h3>
 				<p className='mt-4 text-muted-foreground'>
-					We may ask for limited information such as an email address or account
-					details if needed. Primarily, we collect:
+					When you sign in with Riot, we store your Riot ID (name and tag),
+					your Riot account ID (PUUID), your region and a record that you
+					agreed to these terms. We don&apos;t ask for your email address or
+					password. We also collect:
 				</p>
 				<ul className='list-disc ml-8 text-muted-foreground mt-2'>
-					<li>Cookies</li>
 					<li>Usage Data</li>
-					<li>Crash and diagnostic data</li>
+					<li>Crash, diagnostic and performance data</li>
 				</ul>
+
+				<h3 className='text-lg mt-8'>Match Data</h3>
+				<p className='mt-4 text-muted-foreground'>
+					Your match history comes from Riot&apos;s official API. The app
+					stores it on your device to show your stats. It stays on your device
+					until you remove your account data or uninstall the app.
+				</p>
 
 				<h3 className='text-lg mt-8'>Usage Data</h3>
 				<p className='mt-4 text-muted-foreground'>
@@ -77,8 +92,8 @@ const Privacy = () => {
 				<p className='mt-4 text-muted-foreground'>
 					When the app encounters an error or crash, diagnostic information (for
 					example, stack traces, device type, OS version, and app version) is
-					sent to our analytics partners, including Firebase Crashlytics and
-					LogRocket. This information is used only to diagnose and fix
+					sent to Firebase Crashlytics. Firebase Performance Monitoring also
+					records app start times and network request timings. This information is used only to diagnose and fix
 					technical issues and does not include information such as your name or
 					email address.
 				</p>
@@ -96,7 +111,6 @@ const Privacy = () => {
 				<p className='mt-4 text-muted-foreground'>We use collected data to:</p>
 				<ul className='list-disc ml-8 text-muted-foreground mt-2'>
 					<li>Provide and maintain Valysis</li>
-					<li>Display ads and measure their effectiveness</li>
 					<li>Improve user experience and app performance</li>
 					<li>Understand and analyze usage trends</li>
 					<li>Respond to user support requests</li>
@@ -104,13 +118,9 @@ const Privacy = () => {
 
 				<h2 className='text-xl font-medium mt-12'>Advertising & Tracking</h2>
 				<p className='mt-4 text-muted-foreground'>
-					Valysis may display ads provided by Google Mobile Ads (AdMob). These
-					ads may use cookies and device identifiers (such as IDFA on iOS) to
-					show personalized or contextual ads and to measure ad performance. You
-					can opt out of personalized ads in your device settings (for example,
-					“Limit Ad Tracking” on iOS). We comply with Apple’s App Tracking
-					Transparency (ATT) framework and will ask for your consent where
-					required.
+					Valysis doesn&apos;t show ads and doesn&apos;t track you across other
+					apps or websites. It never reads your device&apos;s advertising ID
+					(IDFA on iOS, the advertising ID on Android).
 				</p>
 
 				<h2 className='text-xl font-medium mt-12'>
@@ -123,21 +133,7 @@ const Privacy = () => {
 				</p>
 				<ul className='list-disc ml-8 text-muted-foreground mt-2'>
 					<li>
-						<strong>Google Mobile Ads (AdMob)</strong> — displays advertisements
-						and may collect device identifiers and interaction data to deliver
-						and measure ads. Learn more:{' '}
-						<a
-							href='https://policies.google.com/privacy'
-							className='underline'
-							target='_blank'
-							rel='noreferrer'
-						>
-							policies.google.com/privacy
-						</a>
-						.
-					</li>
-					<li>
-						<strong>Firebase Analytics & Crashlytics</strong> — collects
+						<strong>Firebase Analytics, Crashlytics & Performance Monitoring</strong> — collects
 						aggregated app usage, performance metrics, and crash data to help us
 						improve stability and usability. Learn more:{' '}
 						<a
@@ -150,20 +146,6 @@ const Privacy = () => {
 						</a>
 						.
 					</li>
-					<li>
-						<strong>LogRocket</strong> — records anonymous session replays,
-						console logs, and crash traces to help us debug and improve the
-						Service. Learn more:{' '}
-						<a
-							href='https://logrocket.com/privacy/'
-							className='underline'
-							target='_blank'
-							rel='noreferrer'
-						>
-							logrocket.com/privacy
-						</a>
-						.
-					</li>
 				</ul>
 
 				<h2 className='text-xl font-medium mt-12'>Data Retention</h2>
@@ -172,6 +154,16 @@ const Privacy = () => {
 					and for the purposes outlined in this policy. We delete or anonymize
 					it once it is no longer needed unless we are legally required to
 					retain it.
+				</p>
+
+				<h2 className='text-xl font-medium mt-12'>Deleting Your Data</h2>
+				<p className='mt-4 text-muted-foreground'>
+					You can delete your account and data in the app under Settings, on
+					the web by signing in with Riot, or by emailing us. See{' '}
+					<a href='/delete-account' className='underline'>
+						Delete your data
+					</a>{' '}
+					for details.
 				</p>
 
 				<h2 className='text-xl font-medium mt-12'>Data Security</h2>

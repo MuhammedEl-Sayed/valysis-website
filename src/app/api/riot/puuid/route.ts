@@ -1,6 +1,7 @@
 export const runtime = "edge";
 
 import { getRiotPUUID } from "@/lib/riot/getRiotPUUID";
+import { normalizeString } from "@/utils/functions/normalizeString";
 import { checkRateLimits, isRateLimited } from "@/utils/rate-limiter";
 
 export async function GET(req: Request) {
@@ -31,9 +32,11 @@ export async function GET(req: Request) {
 	}
 
 	const [gameName, tagLine] = name.split("#");
+	const normalizedGameName = normalizeString(gameName);
+	const normalizedTagLine = normalizeString(tagLine);
 
 	try {
-		const puuid = await getRiotPUUID(gameName, tagLine, shard);
+		const puuid = await getRiotPUUID(normalizedGameName, normalizedTagLine, shard);
 		return new Response(JSON.stringify({ puuid }), {
 			headers: { "Content-Type": "application/json" },
 		});
