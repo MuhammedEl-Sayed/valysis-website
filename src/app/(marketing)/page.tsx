@@ -92,7 +92,7 @@ const HomePage = async () => {
 									width={150}
 									height={50}
 								/>
-							</div>``
+							</div>
 							<Link href='https://play.google.com/store/apps/details?id=com.melsayed.valysis'>
 								<Image
 									src='/assets/google-play-badge.png'
