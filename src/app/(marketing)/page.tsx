@@ -92,15 +92,15 @@ const HomePage = async () => {
 									width={150}
 									height={50}
 								/>
-							</div>
-							<a href='https://play.google.com/store/apps/details?id=com.melsayed.valysis'>
+							</div>``
+							<Link href='https://play.google.com/store/apps/details?id=com.melsayed.valysis'>
 								<Image
 									src='/assets/google-play-badge.png'
 									alt='Google Play'
 									width={150}
-									height={50}
-								/>
-							</a>
+									height={50} />
+							</Link>
+
 						</div>
 					</AnimationContainer>
 
@@ -137,8 +137,8 @@ const HomePage = async () => {
 						</div>
 					</AnimationContainer>
 				</div>
-			</MaxWidthWrapper>
-		</div>
+			</MaxWidthWrapper >
+		</div >
 	);
 };
 
