@@ -84,7 +84,7 @@ const HomePage = async () => {
 							Join our Discord to get early access!
 						</p>
 
-						<div className='flex items-center justify-center gap-4 mt-8 pointer-events-none'>
+						<div className='flex items-center justify-center gap-4 mt-8 '>
 							<div className='opacity-50'>
 								<Image
 									src='/assets/app-store-badge.png'
