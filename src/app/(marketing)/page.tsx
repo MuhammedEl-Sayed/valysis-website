@@ -93,7 +93,11 @@ const HomePage = async () => {
 									height={50}
 								/>
 							</div>
-							<Link href='https://play.google.com/store/apps/details?id=com.melsayed.valysis'>
+							<Link
+								href='https://play.google.com/store/apps/details?id=com.melsayed.valysis'
+								target='_blank'
+								rel='noopener noreferrer'
+							>
 								<Image
 									src='/assets/google-play-badge.png'
 									alt='Google Play'
