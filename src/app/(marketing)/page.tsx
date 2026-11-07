@@ -72,18 +72,11 @@ const HomePage = async () => {
 									href='https://discord.gg/KA4RBDmFEk'
 									target='_blank'
 								>
-									Join the Open Beta on Discord
+									Join the us on Discord
 									<ArrowRightIcon className='ml-2 h-4 w-4' />
 								</Link>
 							</Button>
 						</div>
-
-						<p className='mt-6 text-sm text-muted-foreground'>
-							Valysis is currently in <span className='font-semibold'>open beta</span>.
-							The app is <span className='font-semibold'>not yet available</span> on Google Play or the App Store.
-							Join our Discord to get early access!
-						</p>
-
 						<div className='flex items-center justify-center gap-4 mt-8 '>
 							<div className='opacity-50'>
 								<Image
